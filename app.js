@@ -26,15 +26,29 @@ app.use('/', index);
 app.use('/users', users);
 
 
-// catch 404 and forward to error handler
 
-app.use('/fb_cb', function(req, res, next) {
+
+app.get('/fb_cb', function(req, res, next) {
     if (req.query['hub.verify_token'] === 'my_token') {
         res.send(req.query['hub.challenge']);
         console.log('fb GET!');
     } else {
         res.send('Error, wrong validation token');    
     }
+});
+
+app.post('/fb_cb', function(req, res, next) {
+
+    console.log('hook');
+    messaging_events = req.body.entry[0].messaging;
+        for (i = 0; i < messaging_events.length; i++) {
+            event = req.body.entry[0].messaging[i];
+            sender = event.sender;
+            if (event.message && event.message.text) {
+                console.log(event.sender.id);
+            }
+        }
+    res.sendStatus(200);
 });
 // error handler
 app.use(function(err, req, res, next) {
