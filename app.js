@@ -25,16 +25,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
-app.use('/webhook',function(err, req, res, next) {
-  // var err = new Error('Not Found');
-  // err.status = 404;
-  next(1400954814);
-});
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  
-});
 
+// catch 404 and forward to error handler
+
+app.use('/fb_cb', function(req, res, next) {
+    if (req.query['hub.verify_token'] === 'my_token') {
+        res.send(req.query['hub.challenge']);
+        console.log('fb GET!');
+    } else {
+        res.send('Error, wrong validation token');    
+    }
+});
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
