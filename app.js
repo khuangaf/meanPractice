@@ -37,6 +37,8 @@ app.get('/webhook/', function (req, res) {
 });
 
 app.post('/webhook', function (req, res) {
+	res.send('Error, ffff')
+
   var data = req.body;
 
   // Make sure this is a page subscription
@@ -130,7 +132,7 @@ function callSendAPI(messageData) {
       console.error(error);
     }
   });  
-}
+}x
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
