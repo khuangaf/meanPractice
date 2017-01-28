@@ -28,28 +28,37 @@ app.use('/users', users);
 
 
 
-app.get('/fb_cb', function(req, res, next) {
-    if (req.query['hub.verify_token'] === 'my_token') {
-        res.send(req.query['hub.challenge']);
-        console.log('fb GET!');
-    } else {
-        res.send('Error, wrong validation token');    
-    }
+app.get('/webhook/', function (req, res) {
+	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
+		res.send(req.query['hub.challenge'])
+	} else {
+		res.send('Error, wrong token')
+	}
 });
 
-app.post('/fb_cb', function(req, res, next) {
-
-    console.log('hook');
-    messaging_events = req.body.entry[0].messaging;
-        for (i = 0; i < messaging_events.length; i++) {
-            event = req.body.entry[0].messaging[i];
-            sender = event.sender;
-            if (event.message && event.message.text) {
-                console.log(event.sender.id);
-            }
-        }
-    res.sendStatus(200);
+app.post('/webhook/', function (req, res) {
+	let messaging_events = req.body.entry[0].messaging
+	for (let i = 0; i < messaging_events.length; i++) {
+		let event = req.body.entry[0].messaging[i]
+		let sender = event.sender.id
+		if (event.message && event.message.text) {
+			let text = event.message.text
+			if (text === 'Generic'){ 
+				console.log("welcome to chatbot")
+				//sendGenericMessage(sender)
+				continue
+			}
+			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+		}
+		if (event.postback) {
+			let text = JSON.stringify(event.postback)
+			sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
+			continue
+		}
+	}
+	res.sendStatus(200)
 });
+const token = "<FB_PAGE_ACCESS_TOKEN>"
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
