@@ -165,7 +165,7 @@ function callSendAPI(messageData) {
   console.log('inapi')
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: const token = process.env.FB_PAGE_ACCESS_TOKEN},
+    qs: { access_token: token},
     method: 'POST',
     json: messageData
 
