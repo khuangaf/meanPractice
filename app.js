@@ -9,7 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-
+const ACCESS_TOKEN = 'EAACPuCOj3NQBAJtLBy2ohtbVh9qCZCca0x3DJcQFxsi9lNPAXqkTBeCIko0YIciTKtAzRScIdHApbjRrFRjqW3o6EXyCFg0ahuVl7aMsNZCOihj3ZCRgPHtPgZAO2jdwPkCIPY1j0ZC1YGN82Kqs1mZBOpyrvPevfryhKm7kZCVrwZDZD';
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -101,18 +101,37 @@ function receivedMessage(event) {
   }
 }
 
-function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText
-    }
-  };
-  console.log('callAPI')
-  callSendAPI(messageData);
+function sendTextMessage(sender, text) {
+    let messageData = { text:text }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: ACCESS_TOKEN},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
 }
+
+// function sendTextMessage(recipientId, messageText) {
+//   var messageData = {
+//     recipient: {
+//       id: recipientId
+//     },
+//     message: {
+//       text: messageText
+//     }
+//   };
+//   console.log('callAPI')
+//   callSendAPI(messageData);
+// }
 
 function sendGenericMessage(recipientId) {
   var messageData = {
@@ -160,13 +179,14 @@ function sendGenericMessage(recipientId) {
 
   callSendAPI(messageData);
 }
+
 const token = process.env.FB_PAGE_ACCESS_TOKEN
 function callSendAPI(messageData) {
   console.log('inapi')
   console.log(token)
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAACPuCOj3NQBAH2BaVerZBCjZCDknwJWoHVic0VD8548qHomuZBvhr1k9VXsahHJs3VBsbbGjtsgFL2aZBoWQfBNgd9uAyk2ESJBFpidCx7DZCDWUR6x6OmxMYDZCp9faNjPC5tUCNWNEnUV84Jazlos7VHZAHVac2GcPZCInZBjxZBwZDZD'},
+    qs: { access_token: ACCESS_TOKEN},
     method: 'POST',
     json: messageData
 
