@@ -166,11 +166,12 @@ function callSendAPI(messageData) {
   console.log(token)
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAACPuCOj3NQBAKLpW2e26gyq47aI0o6sRuqY1pMCMPPpUR3u8sQ1m7QPEadJDXhBgVOeIZCt2PeiXWpZCejSBg7oIw4GsZBqQxrfRoWNNvJiQUuRaX0BnkZAxRFYWMZCS7UXvA3BZBjvUOj3texlmORcvlVI9o5AHefsrA1fBdBAZDZD'},
+    qs: { access_token: 'EAACPuCOj3NQBAH2BaVerZBCjZCDknwJWoHVic0VD8548qHomuZBvhr1k9VXsahHJs3VBsbbGjtsgFL2aZBoWQfBNgd9uAyk2ESJBFpidCx7DZCDWUR6x6OmxMYDZCp9faNjPC5tUCNWNEnUV84Jazlos7VHZAHVac2GcPZCInZBjxZBwZDZD'},
     method: 'POST',
     json: messageData
 
   }, function (error, response, body) {
+    console.log('yes');
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
