@@ -39,7 +39,7 @@ app.get('/webhook/', function (req, res) {
 app.post('/webhook', function (req, res) {
 	
   var data = req.body;
-  
+  console.log('webhook');
   // Make sure this is a page subscription
   if (data.object === 'page') {
 
@@ -81,17 +81,19 @@ function receivedMessage(event) {
 
   var messageText = message.text;
   var messageAttachments = message.attachments;
-
+  console.log('msg')
   if (messageText) {
 
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
+
     switch (messageText) {
       case 'generic':
         sendGenericMessage(senderID);
         break;
 
       default:
+        console.log('prepare to send msg')
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
@@ -162,7 +164,7 @@ function sendGenericMessage(recipientId) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: PAGE_ACCESS_TOKEN },
+    qs: { access_token: EAACPuCOj3NQBAK31rAEdmizL0rpX7A783C7IBvnPhlqeuZBc5dQjzZBb0H1FiLxdJj4uvG03hkz7KdtTOIrmP0W21v6EHuB5iA8tDWtITzuPCOyQDPjZAQ257G1FGQn5Mtfp1jZCaZBhZBeToAwhzbgKkqbwRqD3rU0Stj9uR3RwZDZD },
     method: 'POST',
     json: messageData
 
