@@ -110,7 +110,7 @@ function sendTextMessage(recipientId, messageText) {
       text: messageText
     }
   };
-
+  console.log('callAPI')
   callSendAPI(messageData);
 }
 
@@ -164,7 +164,7 @@ function sendGenericMessage(recipientId) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: EAACPuCOj3NQBAK31rAEdmizL0rpX7A783C7IBvnPhlqeuZBc5dQjzZBb0H1FiLxdJj4uvG03hkz7KdtTOIrmP0W21v6EHuB5iA8tDWtITzuPCOyQDPjZAQ257G1FGQn5Mtfp1jZCaZBhZBeToAwhzbgKkqbwRqD3rU0Stj9uR3RwZDZD },
+    qs: { access_token: EAACPuCOj3NQBAKLpW2e26gyq47aI0o6sRuqY1pMCMPPpUR3u8sQ1m7QPEadJDXhBgVOeIZCt2PeiXWpZCejSBg7oIw4GsZBqQxrfRoWNNvJiQUuRaX0BnkZAxRFYWMZCS7UXvA3BZBjvUOj3texlmORcvlVI9o5AHefsrA1fBdBAZDZD
     method: 'POST',
     json: messageData
 
