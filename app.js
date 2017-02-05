@@ -160,11 +160,12 @@ function sendGenericMessage(recipientId) {
 
   callSendAPI(messageData);
 }
-
+const token = process.env.FB_PAGE_ACCESS_TOKEN
 function callSendAPI(messageData) {
+  console.log('inapi')
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAACPuCOj3NQBAKLpW2e26gyq47aI0o6sRuqY1pMCMPPpUR3u8sQ1m7QPEadJDXhBgVOeIZCt2PeiXWpZCejSBg7oIw4GsZBqQxrfRoWNNvJiQUuRaX0BnkZAxRFYWMZCS7UXvA3BZBjvUOj3texlmORcvlVI9o5AHefsrA1fBdBAZDZD'},
+    qs: { access_token: const token = process.env.FB_PAGE_ACCESS_TOKEN},
     method: 'POST',
     json: messageData
 
