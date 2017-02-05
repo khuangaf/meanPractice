@@ -50,7 +50,13 @@ app.post('/webhook', function (req, res) {
 
       // Iterate over each messaging event
       entry.messaging.forEach(function(event) {
-        if (event.message) {
+        if (event.message.attachments) {
+          if(event.message.attachments[0].type === "image"){
+           var imageURL = event.message.attachments[0].payload.url;
+           console.log(imageURL);
+          }
+        }
+        else if (event.message) {
 
           receivedMessage(event);
         } else {
